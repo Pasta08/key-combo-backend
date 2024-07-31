@@ -5,12 +5,15 @@ import {
     getUserByIdHandler,
 } from '../controller/userController.js'
 
-const router = express.Router()
-console.log('routing')
 /**
  * @openapi
+ * tags:
+ *   name: Users
+ *   description: User management and retrieval
+ * 
  * /api/v1/users:
  *   post:
+ *     tags: [Users]
  *     summary: Create a new user
  *     requestBody:
  *       required: true
@@ -25,26 +28,23 @@ console.log('routing')
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
- */
-router.post('/users', createUserHandler)
-
-/**
- * @openapi
- * /api/v1/users:
  *   get:
- *     tag:
- *       - Users
- *     description: Respond if running
+ *     tags: [Users]
+ *     summary: Get all users
+ *     description: Retrieve a list of all users
  *     responses:
  *       200:
- *         description: App is up and running
- */
-router.get('/users', getAllUserHandler)
-
-/**
- * @openapi
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ * 
  * /api/v1/users/{id}:
  *   get:
+ *     tags: [Users]
  *     summary: Get a user by ID
  *     parameters:
  *       - in: path
@@ -62,7 +62,47 @@ router.get('/users', getAllUserHandler)
  *               $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
+ * 
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - first_name
+ *         - surname
+ *         - email
+ *         - password
+ *       properties:
+ *         username:
+ *           type: string
+ *         first_name:
+ *           type: string
+ *         surname:
+ *           type: string
+ *         email:
+ *           type: string
+ *           format: email
+ *         password:
+ *           type: string
+ *         score:
+ *           type: number
+ *           default: 0
+ *         combo_duration_in_seconds:
+ *           type: number
+ *           default: 0
+ *         total_key_pressed:
+ *           type: number
+ *           default: 0
+ *         created_at:
+ *           type: string
+ *           format: date-time
  */
+
+const router = express.Router()
+
+router.post('/users', createUserHandler)
+router.get('/users', getAllUserHandler)
 router.get('/users/:id', getUserByIdHandler)
 
 export default router

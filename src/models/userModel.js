@@ -7,6 +7,8 @@ import mongoose from 'mongoose'
  *     User:
  *       type: object
  *       required:
+ *         -first_name
+ *         -last_name
  *         - username
  *         - email
  *         - password
@@ -14,6 +16,12 @@ import mongoose from 'mongoose'
  *         username:
  *           type: string
  *           description: The user's username
+ *         first_name:
+ *           type: string
+ *           description: The user's first name
+ *         last_name:
+ *           type: string
+ *           description: The user's surname
  *         email:
  *           type: string
  *           format: email
@@ -39,18 +47,16 @@ import mongoose from 'mongoose'
  *           description: The timestamp when the user was created
  *       example:
  *         username: johndoe
+ *         first_name: johndoe
+ *         last_name: johndoe
  *         email: john@example.com
  *         password: hashedpassword123
- *         score: 100
- *         combo_duration_in_seconds: 60
- *         total_key_pressed: 500
- *         created_at: '2023-06-07T10:00:00Z'
  */
 const userSchema = new mongoose.Schema(
     {
         username: { type: String, required: true },
         first_name: { type: String, required: true },
-        surname: { type: String, required: true },
+        last_name: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         score: { type: Number, default: 0 },
@@ -83,4 +89,26 @@ export const findUserById = async (_id) => {
     }
 }
 
+export const createUser = async (userData) => {
+    try {
+        const newUser = new User({
+            username: userData.username,
+            first_name: userData.first_name,
+            last_name: userData.last_name,
+            email: userData.email,
+            password: userData.password,
+            score: userData.score,
+            combo_duration_in_seconds: userData.combo_duration_in_seconds,
+            total_key_pressed: userData.total_key_pressed
+        });
+
+        const savedUser = await newUser.save();
+        
+        console.log('User created successfully:', savedUser);
+        return savedUser;
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw error;
+    }
+}
 export default User

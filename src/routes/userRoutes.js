@@ -1,7 +1,7 @@
 import express from "express";
 import {
     createUserHandler,
-    getUserHandler,
+    getAllUserHandler,
 } from "../controller/userController.js";
 
 const router = express.Router();
@@ -31,6 +31,6 @@ router.post("/users", createUserHandler);
  *                   email:
  *                     type: string
  */
-router.get("/users", getUserHandler);
+router.get("/users", getAllUserHandler);
 
 export default router;

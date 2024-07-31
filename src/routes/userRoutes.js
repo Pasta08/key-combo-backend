@@ -1,36 +1,43 @@
-import express from "express";
+import express from 'express'
 import {
     createUserHandler,
     getAllUserHandler,
-} from "../controller/userController.js";
+} from '../controller/userController.js'
 
-const router = express.Router();
-console.log("routing");
-router.post("/users", createUserHandler);
-
+const router = express.Router()
+console.log('routing')
 /**
- * @swagger
- * /api/users:
- *   get:
- *     summary: Get all users
- *     description: Retrieve a list of all users
+ * @openapi
+ * /api/v1/users:
+ *   post:
+ *     summary: Create a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
  *     responses:
- *       200:
- *         description: A list of users
+ *       201:
+ *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   email:
- *                     type: string
+ *               $ref: '#/components/schemas/User'
  */
-router.get("/users", getAllUserHandler);
+router.post('/users', createUserHandler)
 
-export default router;
+/**
+ * @openapi
+ * /api/v1/users:
+ *   get:
+ *     tag:
+ *       - Users
+ *     description: Respond if running
+ *     responses:
+ *       200:
+ *         description: App is up and running
+ */
+router.get('/users', getAllUserHandler)
+
+export default router

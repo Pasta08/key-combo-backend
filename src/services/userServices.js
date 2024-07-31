@@ -10,9 +10,21 @@ export const findAllUsersService = async (req, res) => {
     await openConnection()
     try {
         const allUsers = await findAllUsers()
+        console.log(allUsers)
     } catch (error) {
         console.error('Error retrieving user:', error)
         res.status(500).json({ message: 'Internal server error' })
+    } finally {
+        closeConnection()
+    }
+}
+export const findUserByIdService = async (id) => {
+    await openConnection()
+    try {
+        const user = await findUserById(id)
+        return user
+    } catch (error) {
+        console.error('Error retrieving user:', error)
     } finally {
         closeConnection()
     }

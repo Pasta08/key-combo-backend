@@ -65,17 +65,15 @@ const User = mongoose.model('User', userSchema)
 export const findAllUsers = async () => {
     try {
         const users = await User.find()
-        console.log(`Found ${users.length} users`)
         return users
     } catch (error) {
         console.error('Error finding users:', error)
         throw error
     }
 }
-export const findUserById = async () => {
+export const findUserById = async (_id) => {
     try {
-        const user = await User.findById('66a94708b0964ddb73910f4b')
-        console.log(`Found ${user}`)
+        const user = await User.findById(_id)
         return user
     } catch (error) {
         console.error('Error finding users:', error)

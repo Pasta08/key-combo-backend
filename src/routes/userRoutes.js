@@ -2,6 +2,7 @@ import express from 'express'
 import {
     createUserHandler,
     getAllUserHandler,
+    getUserByIdHandler,
 } from '../controller/userController.js'
 
 const router = express.Router()
@@ -39,5 +40,29 @@ router.post('/users', createUserHandler)
  *         description: App is up and running
  */
 router.get('/users', getAllUserHandler)
+
+/**
+ * @openapi
+ * /api/v1/users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: User not found
+ */
+router.get('/users/:id', getUserByIdHandler)
 
 export default router

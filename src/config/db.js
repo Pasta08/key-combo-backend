@@ -15,7 +15,6 @@ export const openConnection = async () => {
         await mongoose.connect(mongoUri, {
             dbName: 'k-combo-db', // Explicitly specify the database name
         })
-        console.log('Connected to MongoDB')
     } catch (error) {
         console.error('Error connecting to MongoDB:', error)
         throw error
@@ -25,7 +24,6 @@ export const openConnection = async () => {
 export const closeConnection = async () => {
     try {
         await mongoose.connection.close()
-        console.log('Closed MongoDB connection')
     } catch (error) {
         console.error('Error closing MongoDB connection:', error)
         throw error
